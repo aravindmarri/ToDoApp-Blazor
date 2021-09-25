@@ -1,0 +1,38 @@
+﻿body {
+    word-break: break-word;
+}
+.todo-list:not(:last-child) {
+    padding-bottom: 10px;
+}
+.task-container {
+    width: auto;
+    max-width: 400px;
+    margin: auto;
+}
+section {
+    .title {
+        width: max-content;
+        margin: auto;
+        padding: 20px;
+    }
+    .count {
+        text-align: center;
+        padding: 10px;
+    }
+}
+.add-icon {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 15px;
+}
+.todo-list {
+    .mud-card-header .mud-card-header-actions {
+        align-self: center;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .portal-anchor {
+        left: 70% !important;
+    }
+}

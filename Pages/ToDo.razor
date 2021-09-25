@@ -1,0 +1,73 @@
+﻿@page "/"
+@inject IDialogService DialogService
+
+<link href="/scss/todo.css" rel="stylesheet" />
+
+<section>
+    <h1 tabindex="0" class="title">ToDo List </h1>
+    @if (@todos.Count(todo => !todo.IsDone) > 0) {
+        <p class="count">Total Tasks to do <strong>@todos.Count(todo => !todo.IsDone)</strong></p>
+    }
+    <ul class="todo-ul">
+        @foreach (var todo in todos)
+        {
+            <li class="todo-list">
+                <MudCard Class="task-container d-flex">
+                    <MudCheckBox tabindex="0" @bind-Checked="@todo.IsDone" Color="Color.Secondary"></MudCheckBox>
+                    <MudCardHeader Class="mud-width-full">
+                        <CardHeaderContent>
+                            <MudText tabindex="0" Typo="Typo.h6">@todo.Title</MudText>
+                            <MudText tabindex="0">@todo.Description</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudMenu Icon="@Icons.Material.Filled.MoreVert" tabindex="0">
+                                <MudMenuItem @onclick="()=>EditTask(todo.Id)">Edit</MudMenuItem>
+                                <MudMenuItem @onclick="()=>DeleteTask(todo.Id)">Delete</MudMenuItem>
+                            </MudMenu>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                </MudCard>
+            </li>
+        }
+    </ul>
+    <div class="add-icon">
+        <MudFab Color="Color.Primary" tabindex="0" OnClick="AddNewTask"  Icon="@Icons.Material.Filled.Add" aria-label="add" />
+    </div>
+</section>
+<MudDialog @bind-IsVisible="NewTaskvisible">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            New Task
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="newTodo"
+                      Immediate="true"
+                      Label="ToDo Title *" />
+        <MudTextField @bind-Value="newDescription"
+                      Immediate="true"
+                      Label="ToDo Description" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Class="px-10">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddTodo" Class="px-10">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+<MudDialog @bind-IsVisible="Editvisible">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            Edit Task
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="todos[EditId].Title"
+                      Immediate="true"
+                      Label="ToDo Title *" />
+        <MudTextField @bind-Value="todos[EditId].Description"
+                      Immediate="true"
+                      Label="ToDo Description" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="EditTodo" Class="px-10">Done</MudButton>
+    </DialogActions>
+</MudDialog>
